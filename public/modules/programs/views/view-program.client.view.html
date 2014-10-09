@@ -1,0 +1,38 @@
+<section data-ng-controller="ProgramsController" data-ng-init="findOne()">
+	<div class="page-header">
+		<h1 data-ng-bind="program.name"></h1>
+	</div>
+	<div data-ng-repeat="comment in program.comments">
+		<p>{{comment.comment}}</p>
+	</div>
+	
+	
+	<div class="pull-right" data-ng-show="authentication.user._id == program.user._id">
+		<a class="btn btn-primary" href="/#!/programs/{{program._id}}/edit">
+			<i class="glyphicon glyphicon-edit"></i>
+		</a>
+		<a class="btn btn-primary" data-ng-click="remove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+	<small>
+		<em class="text-muted">
+			Posted on
+			<span data-ng-bind="program.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-bind="program.user.displayName"></span>
+		</em>
+	</small>
+
+	<div data-ng-repeat="comment in comments">
+		<p><b>{{comment.user.displayName}}</b>:{{comment.comment}} </p>
+	</div>
+
+	<form data-ng-submit="createComment()">
+		<input data-ng-model="newComment" class='input' />
+		<br />
+		<br />
+		<input class="btn btn-ok btn-lg" type="submit" value="Comment" />
+	</form>
+	<pre>{{newComment}} - newComment</pre>
+</section>
