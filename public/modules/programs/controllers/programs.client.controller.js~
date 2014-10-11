@@ -27,7 +27,7 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 
 			console.log($scope.newComment);
 			CustomRequest('POST','programs/'+$stateParams.programId+'/comments',{comment:$scope.newComment},function(){
-				$scope.findOne();
+				$scope.findOne();e
 			},true);
 			// Create new Comment object
 			// var comment = new Comments ({
