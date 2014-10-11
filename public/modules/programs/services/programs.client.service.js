@@ -28,9 +28,15 @@ angular.module('programs').factory('CustomRequest',['$http',function($http){
 
 	return function(method,path,params,callback,isDEV)
 	{	
+<<<<<<< HEAD
 
 		method = method&&typeof method === typeof 'a'?method:'GET';
 		path = path&&typeof path === typeof 'a'?path:'/programs/';
+=======
+		//CHECK VALID arguments
+		method = method&&typeof method === typeof "a"?method:"GET";
+		path = path&&typeof path === typeof "a"?path:"/programs/";
+>>>>>>> 40668a91c2b8b82bb4dab638986650175bfa3584
 		params = params&&typeof params === typeof {}?params:{};
 
 		$http({method:method,url:path,data:params}).success(function(d,s,h,c){

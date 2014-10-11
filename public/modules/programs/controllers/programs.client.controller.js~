@@ -1,8 +1,8 @@
 'use strict';
 
 // Programs controller
-angular.module('programs').controller('ProgramsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Programs','CustomRequest','Comments','ProgramsComment',
-	function($scope, $stateParams, $location, Authentication, Programs, CustomRequest,Comments,ProgramsComment ) {
+angular.module('programs').controller('ProgramsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Programs','CustomRequest','Comments',
+	function($scope, $stateParams, $location, Authentication, Programs, CustomRequest,Comments ) {
 		$scope.authentication = Authentication;
 		
 		// Create new Program
@@ -27,7 +27,7 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 
 			console.log($scope.newComment);
 			CustomRequest('POST','programs/'+$stateParams.programId+'/comments',{comment:$scope.newComment},function(){
-				$scope.findOne();
+				$scope.findOne();e
 			},true);
 			// Create new Comment object
 			// var comment = new Comments ({
@@ -87,12 +87,11 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 			$scope.program = Programs.get({ 
 				programId: $stateParams.programId
 			});
-			//CustomRequest('GET','programs/'+$stateParams.programId+'/comments',{},getCommentsJSON);
-			// $scope.comments = ProgramsComment.query({
-			// 	programId:$stateParams.programId});
-			$scope.comments = ProgramsComment.get({
-				programId: $stateParams.programId
-			});
+			CustomRequest('GET','programs/'+$stateParams.programId+'/comments',{},getCommentsJSON);
+			
+			// $scope.comments = ProgramsComment.get({
+			// 	programId: $stateParams.programId
+			// });
 		};
 	}
 ]);
