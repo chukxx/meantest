@@ -13,31 +13,31 @@ angular.module('programs').factory('Programs', ['$resource',
 ]);
 
 
-// angular.module('programs').factory('ProgramsComment', ['$resource',
-// 	function($resource) {
-// 		return $resource('programs/comments/:programId', { programId: '@_id'
-// 		}, {
-// 			update: {
-// 				method: 'PUT'
-// 			}
-// 		});
-// 	}
-// ]);
+angular.module('programs').factory('ProgramsComment', ['$resource',
+	function($resource) {
+		return $resource('programs/:programId/comments/:commentId', { programId: '@program',commentId:'@comments._id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+	}
+]);
 
 angular.module('programs').factory('CustomRequest',['$http',function($http){
 
 	return function(method,path,params,callback,isDEV)
 	{	
-		//CHECK VALID arguments
-		method = method&&typeof method === typeof "a"?method:"GET";
-		path = path&&typeof path == typeof "a"?path:"/programs/";
-		params = params&&typeof params == typeof {}?params:{};
+
+		method = method&&typeof method === typeof 'a'?method:'GET';
+		path = path&&typeof path === typeof 'a'?path:'/programs/';
+		params = params&&typeof params === typeof {}?params:{};
 
 		$http({method:method,url:path,data:params}).success(function(d,s,h,c){
 			
 			if(isDEV)
 				console.log(arguments);
-			if(callback && typeof callback == typeof function(){})
+			if(callback && typeof callback === typeof function(){})
 				callback(d,s,h,c);
 			else
 				console.log('not a function');
@@ -45,7 +45,7 @@ angular.module('programs').factory('CustomRequest',['$http',function($http){
 			
 			if(isDEV)
 				console.log(arguments);
-			if(callback && typeof callback == typeof function(){})
+			if(callback && typeof callback === typeof function(){})
 				callback(d,s,h,c);
 			else
 				console.log('not a function');

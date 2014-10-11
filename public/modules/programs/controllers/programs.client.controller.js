@@ -1,8 +1,8 @@
 'use strict';
 
 // Programs controller
-angular.module('programs').controller('ProgramsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Programs','CustomRequest','Comments',
-	function($scope, $stateParams, $location, Authentication, Programs, CustomRequest,Comments ) {
+angular.module('programs').controller('ProgramsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Programs','CustomRequest','Comments','ProgramsComment',
+	function($scope, $stateParams, $location, Authentication, Programs, CustomRequest,Comments,ProgramsComment ) {
 		$scope.authentication = Authentication;
 		
 		// Create new Program
@@ -80,18 +80,19 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 		var getCommentsJSON = function(d,s,h,c)
 		{
 			$scope.comments = d;
-		}
+		};
 
 		// Find existing Program
 		$scope.findOne = function() {
 			$scope.program = Programs.get({ 
 				programId: $stateParams.programId
 			});
-			CustomRequest('GET','programs/'+$stateParams.programId+'/comments',{},getCommentsJSON);
-			
-			// $scope.comments = ProgramsComment.get({
-			// 	programId: $stateParams.programId
-			// });
+			//CustomRequest('GET','programs/'+$stateParams.programId+'/comments',{},getCommentsJSON);
+			// $scope.comments = ProgramsComment.query({
+			// 	programId:$stateParams.programId});
+			$scope.comments = ProgramsComment.get({
+				programId: $stateParams.programId
+			});
 		};
 	}
 ]);
