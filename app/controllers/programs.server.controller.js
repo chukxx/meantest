@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
 	Program = mongoose.model('Program'),
+	Comment = mongoose.model('Comment'),
 	_ = require('lodash');
 
 /**
@@ -30,7 +31,20 @@ exports.create = function(req, res) {
  * Show the current Program
  */
 exports.read = function(req, res) {
-	res.jsonp(req.program);
+	if(req.user)
+	{
+		Comment.find({user:req.user}).populate('user').exec(function(err,comment){
+			if(!err)
+			{
+				var response = req.program;
+				response._myComment = 'cool stuff';
+				console.log(response,'is user');
+				res.jsonp(response);
+			}
+		});
+	}
+	else
+		res.jsonp(req.program);	
 };
 
 /**
@@ -86,7 +100,7 @@ exports.list = function(req, res) { Program.find().sort('-created').populate('us
 /**
  * Program middleware
  */
-exports.programByID = function(req, res, next, id) { Program.findById(id).populate('user', 'displayName').populate('comments','comment').exec(function(err, program) {
+exports.programByID = function(req, res, next, id) { Program.findById(id).populate('user', 'displayName').exec(function(err, program) {
 		if (err) return next(err);
 		if (! program) return next(new Error('Failed to load Program ' + id));
 		req.program = program ;

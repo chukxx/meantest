@@ -23,26 +23,28 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 			});
 		};
 
+		//Use this method instead
 		$scope.createComment = function() {
 
-			console.log($scope.newComment);
-			CustomRequest('POST','programs/'+$stateParams.programId+'/comments',{comment:$scope.newComment},function(){
-				$scope.findOne();
-			},true);
+			//console.log($scope.newComment);
+			//CustomRequest('POST','programs/'+$stateParams.programId+'/comments',{comment:$scope.newComment},function(){
+			//	$scope.findOne();
+			//},true);
 			// Create new Comment object
-			// var comment = new Comments ({
-			// 	comment: $scope.newComment
-			// });
+			var comment = new ProgramsComment({
+				comment: $scope.newComment
+			});
 
-			// Redirect after save
-			// comment.$save(function(response) {
-			// 	$location.path('programs/' + $stateParams.programId);
-
-			// 	// Clear form fields
-			// 	$scope.newComment = '';
-			// }, function(errorResponse) {
-			// 	$scope.error = errorResponse.data.message;
-			// });
+			//Redirect after save
+			comment.$save({programId: $stateParams.programId},function(response) {
+				//$location.path('programs/' + $stateParams.programId);
+				$scope.findOne();
+				console.log(response);
+				//$scope.comments.push({user:{displayName:}response})
+				$scope.newComment = '';
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
 		};
 		// Remove existing Program
 		$scope.remove = function( program ) {
@@ -90,9 +92,11 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 			//CustomRequest('GET','programs/'+$stateParams.programId+'/comments',{},getCommentsJSON);
 			// $scope.comments = ProgramsComment.query({
 			// 	programId:$stateParams.programId});
-			$scope.comments = ProgramsComment.get({
+
+			//Use this method instead
+			$scope.comments = ProgramsComment.query({
 				programId: $stateParams.programId
-			});
+			},function(res){console.log(res);});
 		};
 	}
 ]);

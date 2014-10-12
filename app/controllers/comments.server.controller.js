@@ -98,7 +98,7 @@ exports.delete = function(req, res) {
 /**
  * List of Comments
  */
-exports.list = function(req, res) { Comment.find().sort('-created').populate('user', 'displayName').exec(function(err, comments) {
+exports.list = function(req, res) { Comment.find({program:req.program}).sort('-created').populate('user', 'displayName').exec(function(err, comments) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
