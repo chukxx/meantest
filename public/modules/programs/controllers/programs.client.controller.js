@@ -84,11 +84,16 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 			$scope.comments = d;
 		};
 
+		$scope.hasCommented=null;
 		// Find existing Program
 		$scope.findOne = function() {
-			$scope.program = Programs.get({ 
+			$scope.programContent = Programs.get({ 
 				programId: $stateParams.programId
+			},function(){
+				$scope.program = $scope.programContent.program;
+				$scope.hasCommented = $scope.programContent.usercomment?true:false;
 			});
+			
 			//CustomRequest('GET','programs/'+$stateParams.programId+'/comments',{},getCommentsJSON);
 			// $scope.comments = ProgramsComment.query({
 			// 	programId:$stateParams.programId});
@@ -96,7 +101,7 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 			//Use this method instead
 			$scope.comments = ProgramsComment.query({
 				programId: $stateParams.programId
-			},function(res){console.log(res);});
+			});
 		};
 	}
 ]);

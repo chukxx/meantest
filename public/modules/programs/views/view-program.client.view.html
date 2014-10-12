@@ -6,7 +6,7 @@
 		<p>{comment.comment}</p>
 	</div-->
 	
-	
+	<p ng-show="hasCommented">I have commented</p>
 	<div class="pull-right" data-ng-show="authentication.user._id == program.user._id">
 		<a class="btn btn-primary" href="/#!/programs/{{program._id}}/edit">
 			<i class="glyphicon glyphicon-edit"></i>

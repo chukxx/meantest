@@ -33,18 +33,17 @@ exports.create = function(req, res) {
 exports.read = function(req, res) {
 	if(req.user)
 	{
-		Comment.find({user:req.user}).populate('user').exec(function(err,comment){
+		Comment.find({user:req.user,program:req.program}).limit(1).populate('user','_id').exec(function(err,comment){
 			if(!err)
 			{
-				var response = req.program;
-				response._myComment = 'cool stuff';
-				console.log(response,'is user');
+				var response = {program:req.program,usercomment:comment.length>0?comment:false};
+				console.log(response);
 				res.jsonp(response);
 			}
 		});
 	}
 	else
-		res.jsonp(req.program);	
+		res.jsonp({program:req.program,usercomment:null});	
 };
 
 /**
