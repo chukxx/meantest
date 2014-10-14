@@ -64,8 +64,7 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 
 		// Update existing Program
 		$scope.update = function() {
-			var program = $scope.program ;
-
+			var program = $scope.program;
 			program.$update(function() {
 				$location.path('programs/' + program._id);
 			}, function(errorResponse) {
@@ -76,29 +75,36 @@ angular.module('programs').controller('ProgramsController', ['$scope', '$statePa
 		// Find a list of Programs
 		$scope.find = function() {
 			$scope.programs = Programs.query();
-
 		};
 
 		var getCommentsJSON = function(d,s,h,c)
 		{
 			$scope.comments = d;
 		};
-
+		$scope.programContent = {};
 		$scope.hasCommented=null;
 		// Find existing Program
 		$scope.findOne = function() {
 			$scope.programContent = Programs.get({ 
 				programId: $stateParams.programId
 			},function(){
+				//$scope.programContent = $scope.programContent;
 				$scope.program = $scope.programContent.program;
+				
+				delete $scope.programContent.program;
+				delete $scope.programContent.usercomment;
+
+				for(var i in $scope.programContent)
+					$scope.program[i] = $scope.programContent[i];
+
 				$scope.hasCommented = $scope.programContent.usercomment?true:false;
 			});
-			
-			//CustomRequest('GET','programs/'+$stateParams.programId+'/comments',{},getCommentsJSON);
-			// $scope.comments = ProgramsComment.query({
-			// 	programId:$stateParams.programId});
+							
+							//CustomRequest('GET','programs/'+$stateParams.programId+'/comments',{},getCommentsJSON);
+							// $scope.comments = ProgramsComment.query({
+							// 	programId:$stateParams.programId});
 
-			//Use this method instead
+							//Use this method instead
 			$scope.comments = ProgramsComment.query({
 				programId: $stateParams.programId
 			});
